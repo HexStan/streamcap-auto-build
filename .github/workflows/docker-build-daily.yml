@@ -18,7 +18,7 @@ jobs:
           path: source
 
       - name: Set up Docker tags
-        id: tags
+        id: vars
         run: |
           DATE_TAG=$(date +%F)
           echo "date_tag=$DATE_TAG" >> "$GITHUB_OUTPUT"
@@ -39,4 +39,4 @@ jobs:
           push: true
           tags: |
             hexstan/streamcap-main:latest
-            hexstan/streamcap-main:${{ steps.tags.outputs.date_tag }}
+            hexstan/streamcap-main:${{ steps.vars.outputs.date_tag }}
