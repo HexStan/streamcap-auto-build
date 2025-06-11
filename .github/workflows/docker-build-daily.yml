@@ -39,4 +39,4 @@ jobs:
           push: true
           tags: |
             hexstan/streamcap-main:latest
-            hexstan/streamcap-main:$(date +'%Y%m%d')
+#            hexstan/streamcap-main:$(date +'%Y%m%d')
