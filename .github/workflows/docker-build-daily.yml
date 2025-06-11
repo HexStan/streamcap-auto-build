@@ -39,4 +39,4 @@ jobs:
           push: true
           tags: |
             hexstan/streamcap-main:latest
-            hexstan/streamcap-main:${{ steps.vars.outputs.date_tag }}
+            hexstan/streamcap-main:${{ steps.tags.outputs.date_tag }}
