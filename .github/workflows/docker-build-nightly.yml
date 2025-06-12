@@ -1,4 +1,4 @@
-name: Daily Docker Build
+name: Docker Build Nightly
 
 on:
   schedule:
@@ -38,5 +38,5 @@ jobs:
           context: ./source
           push: true
           tags: |
-            hexstan/streamcap-main:latest
-            hexstan/streamcap-main:${{ steps.tags.outputs.date_tag }}
+            hexstan/streamcap-nightly:latest
+            hexstan/streamcap-nightly:${{ steps.tags.outputs.date_tag }}

@@ -4,26 +4,26 @@
 
 ## 🛠 工作流简介
 
-工作流名称：`Daily Docker Build`，主要执行以下操作：
+工作流名称：`Docker Build Nightly`，主要执行以下操作：
 
 1. 每天定时触发（北京时间 00:00，对应 UTC 16:00），或手动触发。
 2. 克隆 `ihmily/StreamCap` 仓库的 `main` 分支代码。
 3. 生成当前日期的 Docker tag（例如：`2025-06-11`）。
 4. 构建并推送 Docker 镜像到 Docker Hub，包含以下两个tag：
 
-   * `hexstan/streamcap-main:latest`
-   * `hexstan/streamcap-main:<YYYY-MM-DD>`（如：`hexstan/streamcap-main:2025-06-11`）
+   * `hexstan/streamcap-nightly:latest`
+   * `hexstan/streamcap-nightly:<YYYY-MM-DD>`（如：`hexstan/streamcap-nightly:2025-06-11`）
 
 ## ✅ 使用示例
 
 拉取最新构建的镜像：
 
 ```bash
-docker pull hexstan/streamcap-main:latest
+docker pull hexstan/streamcap-nightly:latest
 ```
 
 拉取某天构建的特定版本镜像：
 
 ```bash
-docker pull hexstan/streamcap-main:2025-06-11
+docker pull hexstan/streamcap-nightly:2025-06-11
 ```
