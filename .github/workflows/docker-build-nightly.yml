@@ -36,6 +36,7 @@ jobs:
         id: pull
         run: |
           docker pull hexstan/streamcap-nightly:latest || true
+          docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest 2>/dev/null || echo "" > old_digest.txt
 
       - name: Build for comparison
         id: build
@@ -44,13 +45,13 @@ jobs:
           context: ./source
           push: false
           load: true
-          tags: hexstan/streamcap-nightly:latest-new
+          tags: hexstan/streamcap-nightly:latest
 
       - name: Compare image digests
         id: compare
         run: |
-          NEW_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest-new)
-          OLD_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest 2>/dev/null || echo "")
+          NEW_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest)
+          OLD_DIGEST=$(cat old_digest.txt)
 
           echo  "New Digest: $NEW_DIGEST"
           echo  "Old Digest: $OLD_DIGEST"
