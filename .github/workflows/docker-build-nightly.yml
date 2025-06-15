@@ -36,7 +36,9 @@ jobs:
         id: pull
         run: |
           docker pull hexstan/streamcap-nightly:latest || true
+          touch old_digest.txt
           docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest 2>/dev/null || echo "" > old_digest.txt
+          echo "Saved old digest: $(cat old_digest.txt)"
 
       - name: Build for comparison
         id: build
