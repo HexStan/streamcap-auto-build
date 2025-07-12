@@ -32,37 +32,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Pull latest image from Docker Hub
-        id: pull
-        run: |
-          docker pull hexstan/streamcap-nightly:latest || true
-
-      - name: Build without push
-        id: build
-        uses: docker/build-push-action@v5
-        with:
-          context: ./source
-          push: false
-          platforms: linux/amd64,linux/arm64
-          tags: hexstan/streamcap-nightly:latest
-          cache-from: type=registry,ref=hexstan/streamcap-nightly:latest
-
-      - name: Compare image digests
-        id: compare
-        run: |
-          NEW_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest)
-          OLD_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest 2>/dev/null || echo "")
-
-          if [ "$NEW_DIGEST" = "$OLD_DIGEST" ]; then
-            echo "Images are identical, won't push"
-            echo "push=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "Images differ, will push"
-            echo "push=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Push Docker image
-        if: steps.compare.outputs.push == 'true'
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./source
