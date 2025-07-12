@@ -37,13 +37,14 @@ jobs:
         run: |
           docker pull hexstan/streamcap-nightly:latest || true
 
-      - name: Build for comparison
+      - name: Build without push
         id: build
         uses: docker/build-push-action@v5
         with:
           context: ./source
           push: false
           load: true
+          platforms: linux/amd64
           tags: hexstan/streamcap-nightly:latest-new
 
       - name: Compare image digests
@@ -52,8 +53,6 @@ jobs:
           NEW_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest-new)
           OLD_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest 2>/dev/null || echo "")
 
-          echo  "New Digest: $NEW_DIGEST"
-          echo  "Old Digest: $OLD_DIGEST"
           if [ "$NEW_DIGEST" = "$OLD_DIGEST" ]; then
             echo "Images are identical, won't push"
             echo "should_push=false" >> "$GITHUB_OUTPUT"
@@ -62,7 +61,7 @@ jobs:
             echo "should_push=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build and push
+      - name: Push Docker image
         if: steps.compare.outputs.should_push == 'true'
         uses: docker/build-push-action@v5
         with:
