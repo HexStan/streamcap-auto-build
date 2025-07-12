@@ -44,12 +44,12 @@ jobs:
           context: ./source
           push: false
           platforms: linux/amd64,linux/arm64
-          tags: hexstan/streamcap-nightly:latest-new
+          tags: hexstan/streamcap-nightly:new
 
       - name: Compare image digests
         id: compare
         run: |
-          NEW_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-night:latest-new)
+          NEW_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-new:latest)
           OLD_DIGEST=$(docker inspect --format='{{.Id}}' hexstan/streamcap-nightly:latest 2>/dev/null || echo "")
 
           if [ "$NEW_DIGEST" = "$OLD_DIGEST" ]; then
